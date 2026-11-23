@@ -3,8 +3,10 @@
 This document describes a concrete scenario for how the stack described in
 [`plan.md`](plan.md) is intended to be deployed and used once it is
 implemented. It is meant to ground the architecture in a tangible example,
-not to describe anything that exists in the repository today — nothing here
-is implemented yet; see `plan.md` for current status and milestones.
+not to describe a complete stack already available in the repository. Only the
+portable foundation is implemented today; see
+[`implementation-status.md`](implementation-status.md) for exact status and
+`plan.md` for milestones.
 
 ## Scenario: an edge router with an experimental data plane
 
