@@ -1,0 +1,21 @@
+name: core
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  host-and-cross:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: 1.80.0
+          components: rustfmt
+          targets: x86_64-unknown-none,aarch64-unknown-none,riscv64gc-unknown-none-elf
+      - run: make

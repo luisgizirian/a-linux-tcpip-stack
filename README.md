@@ -7,11 +7,14 @@ point of view — same sockets, same syscalls, same tools — while every packet
 is parsed, validated, and processed by original Rust code instead of Linux's
 native networking code.
 
-This repository is in the **planning stage**. There is no working code yet.
-The full scope, architecture, milestones, and acceptance gates are recorded in
-[`docs/plan.md`](docs/plan.md), which is the authoritative source for what
-will be built and in what order. Start there if you want the complete
-technical picture.
+This repository is in the **foundation stage**. It contains a portable,
+dependency-free `no_std` Rust core with bounded packet buffers, checked wire
+parsing, scatter/gather checksums, resource budgets, and wrap-safe timers.
+There is not yet a bootable Linux kernel adapter or a complete network
+protocol. The full scope, architecture, milestones, and acceptance gates are
+recorded in [`docs/plan.md`](docs/plan.md), which remains authoritative.
+Current evidence and blockers are tracked in
+[`docs/implementation-status.md`](docs/implementation-status.md).
 
 ## Why this exists
 
@@ -64,15 +67,36 @@ The stack is organized as a small number of cooperating layers, detailed in
 
 ## Repository layout
 
-See [`docs/plan.md`](docs/plan.md#initial-proposed-repository-layout) for the
-proposed layout as implementation starts (`core/`, `kernel/`, `drivers/`,
-`services/`, `patches/`, `tests/`, `tools/`). Today, `docs/` is the only
-populated directory.
+The planned directories now exist:
+
+- `core/` contains the host-testable `no_std` foundation.
+- `kernel/` will contain Kbuild/Kconfig integration and reviewed C helpers.
+- `drivers/`, `services/`, and `patches/` reserve the remaining implementation
+  surfaces.
+- `tests/` and `tools/` will hold VM/interoperability suites and reproducible
+  build and benchmark commands.
+
+## Foundation checks
+
+The local toolchain is pinned to Rust 1.80.0. Install the three bare targets
+listed in [`docs/implementation-status.md`](docs/implementation-status.md) and
+run:
+
+```sh
+make
+```
+
+This runs formatting checks, host tests, and `no_std` compile checks for
+x86_64, ARM64, and RISC-V. It intentionally does not claim kernel
+compatibility; the `kernel-feasibility` milestone remains the release gate
+before protocol integration.
 
 ## Where to go next
 
 - [`docs/plan.md`](docs/plan.md) — full implementation plan: scope,
   milestones, acceptance gates, and standards references.
+- [`docs/implementation-status.md`](docs/implementation-status.md) — current
+  implementation inventory, evidence, and blockers.
 - [`docs/use-case.md`](docs/use-case.md) — a concrete, real-world scenario
   describing how this stack is meant to be deployed and used once it reaches
   that milestone.

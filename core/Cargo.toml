@@ -1,0 +1,17 @@
+[package]
+name = "netstack-core"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+description = "Portable no_std foundation for a Rust TCP/IP stack"
+
+[features]
+default = []
+test-support = []
+
+[lints]
+workspace = true
+
+[lib]
+crate-type = ["rlib"]
